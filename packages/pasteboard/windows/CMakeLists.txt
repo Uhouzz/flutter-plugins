@@ -17,6 +17,11 @@ target_include_directories(${PLUGIN_NAME} INTERFACE
         "${CMAKE_CURRENT_SOURCE_DIR}/include")
 target_link_libraries(${PLUGIN_NAME} PRIVATE flutter flutter_wrapper_plugin)
 
+# GdiPlus doesn't compile with /W4 warning level
+target_compile_options(${PLUGIN_NAME} PRIVATE
+        $<$<CXX_COMPILER_ID:MSVC>:/W3 /WX>
+        $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wall -Wextra -Wpedantic -Werror>
+        )
 
 
 # List of absolute paths to libraries that should be bundled with the plugin
